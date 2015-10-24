@@ -62,17 +62,22 @@ var deckToHTML = function() {
   for (var i = 0; i < deck.length; i++) {
     var term = deck[i].term;
     var definition = deck[i].definition;
-    $(".container").append("<div class='flashCard'><h2 class='term'></h2><p class='definition'></p></div>");
+    $(".container").append("<div class='flashCard raised'><h2 class='term'></h2><p class='definition'></p></div>");
     $(".term").eq(i).text(term);
+    $(".definition").hide();
     $(".definition").eq(i).text(definition);
   }
 };
 
 $(document).ready(function() {
   //function that generates html elements from deck object
-
+  deckToHTML();
   //flip between front/back
-  // start out using .toggle();
+    // start out using .toggle();
+  $(".flashCard").on("click", function() {
+    $(".term").toggle();
+    $(".definition").toggle();
+  });
   //control using keyboard OR mouse
   // user instructions
   // event listeners for mouse/keyboard functions
