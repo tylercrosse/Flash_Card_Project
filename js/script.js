@@ -52,26 +52,46 @@ var deck = [
   }
 ];
 
+var cardPositions = [".next3",".next2",".next1",".currentCard",".back1",".back2",".back3"];
+
 var numberTheDeck = function() {
   for (var i = 0; i < deck.length; i++) { // IMPROVE create higher order function that loops that can be called for this
     deck[i].cardnumber = (i + 1);
   }
 };
 
-var deckToHTML = function() {
-  for (var i = 0; i < deck.length; i++) {
-    var term = deck[i].term;
-    var definition = deck[i].definition;
-    $(".cards").append("<div class='flashCard'><div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div></div>");
-    $(".flashCard").eq(i).append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
-    $(".term").eq(i).text(term);
-    $(".definition").eq(i).text(definition);
+// var deckToHTML = function() {
+//   for (var i = 0; i < deck.length; i++) {
+//     var term = deck[i].term;
+//     var definition = deck[i].definition;
+//     $(".cards").append("<div class='flashCard'><div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div></div>");
+//     $(".flashCard").eq(i).append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
+//     $(".term").eq(i).text(term);
+//     $(".definition").eq(i).text(definition);
+//   }
+// };
+
+var generateCard = function(deckIndexVal, destination) {
+  var term = deck[deckIndexVal].term;
+  var definition = deck[deckIndexVal].definition;
+  $(destination).append("<div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div>");
+  // $(destination).eq(deckIndexVal).append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
+  $(".term").eq(deckIndexVal).text(term);
+  $(".definition").eq(deckIndexVal).text(definition);
+};
+
+var generateStart = function () {
+  var startPositions = cardPositions.slice(0, 4).reverse();
+  for (var i = 0; i<startPositions.length; i++) {
+    generateCard(i, startPositions[i]);
   }
 };
 
 $(document).ready(function() {
   //function that generates html elements from deck object
-  deckToHTML();
+
+  generateStart();
+
   //flip between front/back
     // start out using .toggle();
 
@@ -79,6 +99,11 @@ $(document).ready(function() {
     var c = this.classList;
     c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
   });
+
+  //mark either right or wrong
+  // button? keyboard input?
+  // store in variable
+  //track which are incorrect, redisplay until right
 
   $(".wrongButton").on("click", function() {
     var parentIndex = $(this).parent().prevAll().length;
@@ -94,8 +119,10 @@ $(document).ready(function() {
   // user instructions
   // event listeners for mouse/keyboard functions
   // buttons?
-  //mark either right or wrong
-  // button? keyboard input?
-  // store in variable
-  //track which are incorrect, redisplay until right
 });
+
+
+//on page load generate first 4 cards of deck
+//place them in currentCard, next1-next3
+//on NEXT, move currentCard->back1, next1->currentCard, next2->1, next3->2
+//generate new card from deck
