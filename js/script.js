@@ -62,9 +62,9 @@ var deckToHTML = function() {
   for (var i = 0; i < deck.length; i++) {
     var term = deck[i].term;
     var definition = deck[i].definition;
-    $(".container").append("<div class='flashCard raised'><h2 class='term'></h2><p class='definition'></p></div>");
+    $(".cards").append("<div class='flashCard raised'><div class='cardFlipper'><div class='cardFront'><h2 class='term'></h2></div><div class='cardBack'><p class='definition'></p></div></div></div>");
     $(".term").eq(i).text(term);
-    $(".definition").hide();
+    // $(".definition").hide();
     $(".definition").eq(i).text(definition);
   }
 };
@@ -75,8 +75,8 @@ $(document).ready(function() {
   //flip between front/back
     // start out using .toggle();
   $(".flashCard").on("click", function() {
-    $(".term").toggle();
-    $(".definition").toggle();
+    var c = this.classList;
+    c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
   });
   //control using keyboard OR mouse
   // user instructions
