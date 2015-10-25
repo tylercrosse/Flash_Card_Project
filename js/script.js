@@ -62,9 +62,9 @@ var deckToHTML = function() {
   for (var i = 0; i < deck.length; i++) {
     var term = deck[i].term;
     var definition = deck[i].definition;
-    $(".cards").append("<div class='flashCard raised'><div class='cardFlipper'><div class='cardFront'><h2 class='term'></h2></div><div class='cardBack'><p class='definition'></p></div></div></div>");
+    $(".cards").append("<div class='flashCard'><div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div></div>");
+    $(".flashCard").eq(i).append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
     $(".term").eq(i).text(term);
-    // $(".definition").hide();
     $(".definition").eq(i).text(definition);
   }
 };
@@ -74,10 +74,12 @@ $(document).ready(function() {
   deckToHTML();
   //flip between front/back
     // start out using .toggle();
-  $(".flashCard").on("click", function() {
+
+  $(".innerCard").on("click", function() {
     var c = this.classList;
     c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
   });
+
   //control using keyboard OR mouse
   // user instructions
   // event listeners for mouse/keyboard functions
