@@ -21,14 +21,12 @@ html, body {
 
 .flashCard {
   position: relative;
-  /*width: 400px;
-  height: 275px;
-  margin-bottom: 50px;*/
   -webkit-perspective: 800;
 }
 
 .flashCard:hover {
-  z-index: 5
+  z-index: 5;
+  -webkit-transition: 0.8s;
 }
 .flashCard .innerCard.flipped {
   -webkit-transform: rotateY(-180deg);
@@ -39,7 +37,7 @@ html, body {
   -webkit-transition: .5s;
   -webkit-transform-style: preserve-3d;
 }
-.flashCard, .innerCard, .cardFace {
+.flashCard, .innerCard, .cardFace, .term, .definition {
   border-radius: 2px;
 }
 .innerCard .cardFace {

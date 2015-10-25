@@ -1,4 +1,3 @@
-console.log("flash cards");
 //deck of cards with front/back
 //object that contains cards/values
 var deck = [
@@ -52,7 +51,9 @@ var deck = [
   }
 ];
 
-var cardPositions = [".next3",".next2",".next1",".currentCard",".back1",".back2",".back3"];
+var cardsGenerated = 0;
+
+var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
 
 var numberTheDeck = function() {
   for (var i = 0; i < deck.length; i++) { // IMPROVE create higher order function that loops that can be called for this
@@ -67,12 +68,29 @@ var generateCard = function(deckIndexVal, destination) {
   $(destination).append("<div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div>");
   $(".term").eq(deckIndexVal).text(term);
   $(".definition").eq(deckIndexVal).text(definition);
+  cardsGenerated++;
 };
 
 var generateStart = function () {
-  var startPositions = cardPositions.slice(0, 4).reverse();
+  var startPositions = cardPositions.slice(3, 7);
   for (var i = 0; i<startPositions.length; i++) {
     generateCard(i, startPositions[i]);
+  }
+};
+
+var cardMove = function (cardToMove, stepsToMove) {
+  var storeContents = $(cardPositions[cardToMove] + " .innerCard");
+  $(cardPositions[cardToMove+stepsToMove]).html(storeContents);
+  $(cardPositions[cardToMove+stepsToMove]).show();
+  $(".currentCard").append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
+};
+
+var cycleNext = function () {
+  for ( var i = 0; i<7; i++) {
+    cardMove(i,-1);
+  }
+  if (cardsGenerated < deck.length-1) {
+    generateCard(cardsGenerated,".next3");
   }
 };
 
@@ -88,11 +106,16 @@ $(document).ready(function() {
     var c = this.classList;
     c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
   });
+  //control using keyboard OR mouse
+  // user instructions
+  // event listeners for mouse/keyboard functions
+  // buttons?
+
 
   //mark either right or wrong
   // button? keyboard input?
   // store in variable
-  //track which are incorrect, redisplay until right
+  //track which are incorrect, redisplay until right =!!NEED TO FIX!!=
 
   $(".wrongButton").on("click", function() {
     var parentIndex = $(this).parent().prevAll().length;
@@ -104,10 +127,6 @@ $(document).ready(function() {
     deck[parentIndex].correct = true;
     $(".flashCard").eq(parentIndex).toggle();
   });
-  //control using keyboard OR mouse
-  // user instructions
-  // event listeners for mouse/keyboard functions
-  // buttons?
 });
 
 
