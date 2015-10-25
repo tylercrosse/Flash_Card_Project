@@ -80,6 +80,16 @@ $(document).ready(function() {
     c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
   });
 
+  $(".wrongButton").on("click", function() {
+    var parentIndex = $(this).parent().prevAll().length;
+    deck[parentIndex].correct = false;
+  });
+
+  $(".correctButton").on("click", function() {
+    var parentIndex = $(this).parent().prevAll().length;
+    deck[parentIndex].correct = true;
+    $(".flashCard").eq(parentIndex).toggle();
+  });
   //control using keyboard OR mouse
   // user instructions
   // event listeners for mouse/keyboard functions
