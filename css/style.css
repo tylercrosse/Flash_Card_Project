@@ -21,10 +21,14 @@ html, body {
 
 .flashCard {
   position: relative;
-  width: 400px;
+  /*width: 400px;
   height: 275px;
-  margin-bottom: 50px;
+  margin-bottom: 50px;*/
   -webkit-perspective: 800;
+}
+
+.flashCard:hover {
+  z-index: 5
 }
 .flashCard .innerCard.flipped {
   -webkit-transform: rotateY(-180deg);
@@ -60,12 +64,11 @@ html, body {
 }
 .term {
   font-family: Helvetica;
-  font-size: 2em;
-  line-height: 275px;
   margin: 0;
   text-align: center;
 }
 .definition {
+  line-height: normal;
   position: absolute;
   top: 50%;
   margin: 0;
@@ -93,6 +96,7 @@ html, body {
   color: #fff;
   border-radius: 50%;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  font-size: 26px;
 }
 
 .fab:hover {
@@ -134,10 +138,22 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
   position: absolute;
   top: 330px;
   left: 250px;
-  z-index: 7;
+  z-index: 1;
   height: 140px;
   width: 175px;
+  line-height: 140px;
+}
+
+.back3 .definition,
+.next3 .definition {
+  font-size: 7px;
+  padding: 0 10px;
+}
+
+.back3 .term,
+.next3 .term {
   background: rgb(0, 16, 65);
+  font-size: 14px;
 }
 
 .back3 {
@@ -152,10 +168,22 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 .next2 {
   position: absolute;
   top: 300px;
-  z-index: 8;
+  z-index: 2;
   height: 200px;
   width: 250px;
+  line-height: 200px;
+}
+
+.back2 .definition,
+.next2 .definition {
+  font-size: 10px;
+  padding: 0 20px;
+}
+
+.back2 .term,
+.next2 .term {
   background: rgb(0, 25, 101);
+  font-size: 20px;
 }
 
 .back2 {
@@ -170,12 +198,22 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 .next1 {
   position: absolute;
   top: 270px;
-  z-index: 9;
+  z-index: 3;
   height: 260px;
   width: 325px;
-  background: rgb(0, 36, 144);
+  line-height: 260px;
 }
 
+.back1 .definition,
+.next1 .definition {
+  font-size: 13px;
+  padding: 0 30px;
+}
+.back1 .term,
+.next1 .term {
+  background: rgb(0, 36, 144);
+  font-size: 32px;
+}
 .back1 {
   left: 80px;
 }
@@ -188,8 +226,16 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
   position: absolute;
   top: 240px;
   left: 160px;
-  z-index: 10;
+  z-index: 4;
   height: 320px;
   width: 400px;
+  line-height: 320px;
+}
+
+.currentCard .definition {
+  font-size: 16px;
+}
+.currentCard .term {
   background: blue;
+  font-size: 40px;
 }

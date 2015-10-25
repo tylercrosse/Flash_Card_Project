@@ -60,22 +60,11 @@ var numberTheDeck = function() {
   }
 };
 
-// var deckToHTML = function() {
-//   for (var i = 0; i < deck.length; i++) {
-//     var term = deck[i].term;
-//     var definition = deck[i].definition;
-//     $(".cards").append("<div class='flashCard'><div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div></div>");
-//     $(".flashCard").eq(i).append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
-//     $(".term").eq(i).text(term);
-//     $(".definition").eq(i).text(definition);
-//   }
-// };
 
 var generateCard = function(deckIndexVal, destination) {
   var term = deck[deckIndexVal].term;
   var definition = deck[deckIndexVal].definition;
   $(destination).append("<div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div>");
-  // $(destination).eq(deckIndexVal).append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
   $(".term").eq(deckIndexVal).text(term);
   $(".definition").eq(deckIndexVal).text(definition);
 };
