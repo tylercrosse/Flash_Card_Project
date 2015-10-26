@@ -103,11 +103,11 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 
 .wrongButton {
-  left: 26px;
+  left: 56px;
   background-color: #d23f31;
 }
 .correctButton {
-  right: 26px;
+  right: 56px;
   background-color: #0f9d58;
 }
 
