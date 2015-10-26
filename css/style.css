@@ -25,7 +25,7 @@ html, body {
 }
 
 .flashCard:hover {
-  z-index: 5;
+  z-index: 6;
   -webkit-transition: 0.8s;
 }
 .flashCard .innerCard.flipped {
@@ -180,7 +180,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 
 .back2 .term,
 .next2 .term {
-  background: rgb(0, 25, 101);
+  /*background: rgb(0, 25, 101);*/
   font-size: 20px;
 }
 
@@ -209,7 +209,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 .back1 .term,
 .next1 .term {
-  background: rgb(0, 36, 144);
+  /*background: rgb(0, 36, 144);*/
   font-size: 32px;
 }
 .back1 {
@@ -234,7 +234,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
   font-size: 16px;
 }
 .currentCard .term {
-  background: blue;
+  /*background: blue;*/
   font-size: 40px;
 }
 
@@ -251,4 +251,196 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
   top: 60px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+/*=======================================================
+    Animations
+=======================================================*/
+
+.currentAnimate {
+  animation: currentRight 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;
+  animation-delay: 0;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes currentRight {
+  0% {
+    background-color: blue;
+    z-index: 4;
+  }
+  100% {
+    transform: scale(0.8125) translateX(145px);
+    background-color: rgb(0, 36, 144);
+    z-index: 3;
+  }
+}
+
+@keyframes currentLeft {
+  0% {
+    background-color: blue;
+    z-index: 4;
+  }
+  100% {
+    transform: scale(0.8125) translateX(-145px);
+    background-color: rgb(0, 36, 144);
+    z-index: 3;
+  }
+}
+
+.next1Animate {
+  animation: next1Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
+  animation-delay: 0;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes next1Right {
+  0% {
+    background-color: rgb(0, 36, 144);
+    z-index: 3;
+  }
+  100% {
+    transform: scale(0.77) translateX(115px);
+    background-color: rgb(0, 25, 101);
+    z-index: 2;
+  }
+}
+
+@keyframes next1Left {
+  0% {
+    background-color: rgb(0, 36, 144);
+    z-index: 3;
+  }
+  /*25% {
+    transform: translateX(200px);
+  }*/
+  100% {
+    transform: scale(1.23) translateX(-95px);
+    background-color: blue;
+    z-index: 4;
+  }
+}
+
+.back1Animate {
+  animation: back1Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
+  animation-delay: 0;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes back1Right{
+  0% {
+    background-color: rgb(0, 36, 144);
+    z-index: 3;
+  }
+  /*25% {
+    transform: translateX(200px);
+  }*/
+  100% {
+    transform: scale(1.23) translateX(95px);
+    background-color: blue;
+    z-index: 4;
+  }
+}
+
+@keyframes back1Left {
+  0% {
+    background-color: rgb(0, 36, 144);
+  }
+  100% {
+    transform: scale(0.77) translateX(-115px);
+    background-color: rgb(0, 25, 101);
+
+  }
+}
+
+.next2Animate {
+  animation: next2Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
+  animation-delay: 0;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes next2Right {
+  0% {
+    background-color: rgb(0, 25, 101);
+    z-index: 2;
+  }
+  100% {
+    transform: scale(0.7) translateX(95px);
+    background-color: rgb(0, 16, 65);
+    z-index: 1;
+  }
+}
+
+@keyframes next2Left {
+  0% {
+    background-color: rgb(0, 25, 101);
+  }
+  100% {
+    transform: scale(1.3) translateX(-70px);
+    background-color: rgb(0, 36, 144);
+  }
+}
+
+.back2Animate {
+  animation: back2Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
+  animation-delay: 0;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes back2Right {
+  0% {
+    background-color: rgb(0, 25, 101);
+  }
+  100% {
+    transform: scale(1.3) translateX(70px);
+    background-color: rgb(0, 36, 144);
+  }
+}
+
+@keyframes back2Left {
+  0% {
+    background-color: rgb(0, 25, 101);
+  }
+  100% {
+    transform: scale(0.7) translateX(-95px);
+    background-color: rgb(0, 16, 65);
+  }
+}
+
+.next3Animate {
+  animation: next3Left 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
+  animation-delay: 0;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes next3Left {
+  0% {
+    background-color: rgb(0, 16, 65);
+  }
+  100% {
+    transform: scale(1.43) translateX(-50px);
+    background-color: rgb(0, 25, 101);
+  }
+}
+
+.back3Animate {
+  animation: back3Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
+  animation-delay: 0;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
+@keyframes back3Right {
+  0% {
+    background-color: rgb(0, 16, 65);
+  }
+  100% {
+    transform: scale(1.43) translateX(50px);
+    background-color: rgb(0, 25, 101);
+  }
 }

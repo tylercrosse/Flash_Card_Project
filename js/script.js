@@ -134,14 +134,10 @@ $(document).ready(function() {
   generateStart();
 
   //flip between front/back
-
   $(".currentCard .innerCard").on("click", function() {
     var c = this.classList;
     c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
   });
-
-  //control using keyboard OR mouse
-  // event listeners for mouse/keyboard functions
 
   $(".next1").on("click", function() {cycleNext();});
   $(".back1").on("click", function() {cycleBack();});
