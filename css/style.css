@@ -237,3 +237,18 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
   background: blue;
   font-size: 40px;
 }
+
+/*=======================================================
+    Instructions
+=======================================================*/
+
+.instructions {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  font-size: 24px;
+  text-align: center;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}

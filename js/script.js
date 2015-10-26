@@ -46,6 +46,8 @@ var numberTheDeck = function() {
   }
 };
 
+//on page load generate first 4 cards of deck
+//place them in currentCard, next1-next3
 var generateStart = function() {
   var startPositions = cardPositions.slice(3, 7);
   for (var i = 0; i < startPositions.length; i++) {
@@ -53,119 +55,113 @@ var generateStart = function() {
   }
 };
 
+var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
+var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
+// var reversePositions = cardPositions.reverse();
+
 var generateCard = function(deckIndexVal, destination) {
-  console.log("deckIndexVal: " + deckIndexVal);
+  var cardnumber = deck[deckIndexVal].cardnumber;
   var termToPlace = deck[deckIndexVal].term; // stores term from deck object
-  console.log("term from deck: " + termToPlace);
   var defToPlace = deck[deckIndexVal].definition; // stores definition from deck object
   $(destination).append("<div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div>");
-  console.log("where the term will be placed:");
-  console.log($(".term").eq(deckIndexVal));
-  $(".term").eq(deckIndexVal).text(termToPlace); // places stored term into 'h2 .term'
-  console.log("what was placed: " + $(".term").eq(deckIndexVal).text());
-  $(".definition").eq(deckIndexVal).text(defToPlace); // places stored def into 'p .definition'
-  nextCounter++;
+  $(destination + " .term").text(termToPlace); // places stored term into 'h2 .term'
+  $(destination + " .definition").text(defToPlace); // places stored def into 'p .definition'
+  $(destination + " .innerCard").attr("name", cardnumber);
 };
 
 var cardMove = function(cardToMove, positionArray) {
   var storeContents = $(positionArray[cardToMove] + " .innerCard"); // get contents of '.innerCard' of card to move
-  $(positionArray[cardToMove - 1]).html(storeContents); // place that contents in
+  $(positionArray[cardToMove - 1]).html(storeContents); // place that contents in next element to left(cardPositions) or right(reversePositions)
   if ($(".currentCard").children().length < 3) {
     $(".currentCard").append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
   }
 };
 
-var nextCounter = 0; // +1 everytime a new card is generated
-var backCounter = 0; // deck.length - cards shown
-//
-
+//on NEXT, move currentCard->back1, next1->currentCard, next2->1, next3->2
 var cycleNext = function() {
-  if (nextCounter < deck.length + 3) { // next counter
+  var next1Contents = $(".next1").html();
+  if (next1Contents) { // if next1 is not empty, advance everything 1 to left
     for (var i = 0; i < 8; i++) {
       cardMove(i, cardPositions); //might be able to modify this to make a generalized cycle function
     }
-    if (nextCounter < deck.length) {
-      generateCard(nextCounter, ".next3");
-    } else {
-      console.log("No more to Generate!");
-      nextCounter++;
-    }
+    fillEmptyNext3();
   } else {
     console.log("Can't Advance Further!");
   }
 };
 
-var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
-var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
-// var reversePositions = cardPositions.reverse();
-// ==CYCLEBACK==
-// remove next3, next2->next3, next1->2, currentCard->next1, back1->currentCard
+var fillEmptyNext3 = function () {
+  // figure out card in ".next3", play next card
+    // create array of cards in play
+  var cardInNext2 = Number($(".next2").children().attr("name"));
+
+  if (cardInNext2 < deck.length) { //checks if there is another card to generate
+    generateCard(cardInNext2, ".next3");
+  } else {
+    console.log("No more to Generate!");
+  }
+};
 
 var cycleBack = function() {
-  if (nextCounter > deck.length - 4) {
-    for (var i = 0; i < 7; i++) {
+  var back1Contents = $(".back1").html();
+  if (back1Contents) { // if back1 is not empty, advance everything 1 to left
+    for (var i = 0; i < 8; i++) {
       cardMove(i, reversePositions); //might be able to modify this to make a generalized cycle function
     }
-    if (nextCounter > deck.length - 1) {
-      generateCard(nextCounter - deck.length, ".back3");
-      nextCounter--;
-    } else {
-      console.log("No more to Generate!");
-    }
-    nextCounter--;
+    fillEmptyBack3();
   } else {
     console.log("Can't Advance Further!");
   }
 };
+
+var fillEmptyBack3 = function () {
+  // figure out card in ".next3", play next card
+    // create array of cards in play
+  var cardInBack2 = Number($(".back2").children().attr("name"));
+  console.log(cardInBack2);
+
+  if (cardInBack2 > 1) { //checks if there is another card to generate
+    generateCard(cardInBack2-2, ".back3");
+  } else {
+    console.log("No more to Generate!");
+  }
+};
+
+// remove next3, next2->next3, next1->2, currentCard->next1, back1->currentCard
+// var cycleBack = function() {
+//   if (XX > deck.length - 4) {
+//     for (var i = 0; i < 7; i++) {
+//       cardMove(i, reversePositions); //might be able to modify this to make a generalized cycle function
+//     }
+//     if (XX > deck.length - 1) {
+//       generateCard(XX - deck.length, ".back3");
+//       XX--;
+//     } else {
+//       console.log("No more to Generate!");
+//     }
+//     XX--;
+//   } else {
+//     console.log("Can't Advance Further!");
+//   }
+// };
 
 $(document).ready(function() {
   //function that generates html elements from deck object
-
+  numberTheDeck();
   generateStart();
 
   //flip between front/back
-  // start out using .toggle();
 
-  // $(".currentCard .innerCard").on("click", function() {
-  //   var c = this.classList;
-  //   c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
-  // });
+  $(".currentCard .innerCard").on("click", function() {
+    var c = this.classList;
+    c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
+  });
+
   //control using keyboard OR mouse
-  // user instructions
   // event listeners for mouse/keyboard functions
-  // buttons?
 
-  $(".next1").on("click", function() {
-    cycleNext();
-    console.log(nextCounter);
-  });
-
-  // $(".next2").on("click", function() {
-  //   cycleNext();
-  //   cycleNext();
-  // });
-  //
-  // $(".next3").on("click", function() {
-  //   cycleNext();
-  //   cycleNext();
-  //   cycleNext();
-  // });
-
-  $(".back1").on("click", function() {
-    cycleBack();
-    console.log(nextCounter);
-  });
-
-  // $(".back2").on("click", function() {
-  //   cycleBack();
-  //   cycleBack();
-  // });
-  //
-  // $(".back3").on("click", function() {
-  //   cycleBack();
-  //   cycleBack();
-  //   cycleBack();
-  // });
+  $(".next1").on("click", function() {cycleNext();});
+  $(".back1").on("click", function() {cycleBack();});
 
   //mark either right or wrong
   // button? keyboard input?
@@ -183,9 +179,3 @@ $(document).ready(function() {
     $(".flashCard").eq(parentIndex).toggle();
   });
 });
-
-
-//on page load generate first 4 cards of deck
-//place them in currentCard, next1-next3
-//on NEXT, move currentCard->back1, next1->currentCard, next2->1, next3->2
-//generate new card from deck
