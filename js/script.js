@@ -55,10 +55,6 @@ var generateStart = function() {
   }
 };
 
-var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
-var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
-// var reversePositions = cardPositions.reverse();
-
 var generateCard = function(deckIndexVal, destination) {
   var cardnumber = deck[deckIndexVal].cardnumber;
   var termToPlace = deck[deckIndexVal].term; // stores term from deck object
@@ -68,6 +64,10 @@ var generateCard = function(deckIndexVal, destination) {
   $(destination + " .definition").text(defToPlace); // places stored def into 'p .definition'
   $(destination + " .innerCard").attr("name", cardnumber);
 };
+
+var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
+var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
+// var reversePositions = cardPositions.reverse();
 
 var cardMove = function(cardToMove, positionArray) {
   var storeContents = $(positionArray[cardToMove] + " .innerCard"); // get contents of '.innerCard' of card to move
@@ -102,6 +102,7 @@ var fillEmptyNext3 = function () {
   }
 };
 
+// remove next3, next2->next3, next1->2, currentCard->next1, back1->currentCard
 var cycleBack = function() {
   var back1Contents = $(".back1").html();
   if (back1Contents) { // if back1 is not empty, advance everything 1 to left
@@ -127,24 +128,6 @@ var fillEmptyBack3 = function () {
   }
 };
 
-// remove next3, next2->next3, next1->2, currentCard->next1, back1->currentCard
-// var cycleBack = function() {
-//   if (XX > deck.length - 4) {
-//     for (var i = 0; i < 7; i++) {
-//       cardMove(i, reversePositions); //might be able to modify this to make a generalized cycle function
-//     }
-//     if (XX > deck.length - 1) {
-//       generateCard(XX - deck.length, ".back3");
-//       XX--;
-//     } else {
-//       console.log("No more to Generate!");
-//     }
-//     XX--;
-//   } else {
-//     console.log("Can't Advance Further!");
-//   }
-// };
-
 $(document).ready(function() {
   //function that generates html elements from deck object
   numberTheDeck();
@@ -162,6 +145,11 @@ $(document).ready(function() {
 
   $(".next1").on("click", function() {cycleNext();});
   $(".back1").on("click", function() {cycleBack();});
+
+  $("html").keydown(function(e) {
+    if (e.keyCode == "37") {cycleNext();}
+    if (e.keyCode == "39") {cycleBack();}
+  });
 
   //mark either right or wrong
   // button? keyboard input?
