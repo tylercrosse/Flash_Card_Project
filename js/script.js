@@ -128,23 +128,44 @@ var fillEmptyBack3 = function () {
   }
 };
 
+var toggleFlip = function () {
+  var c = $(".currentCard .innerCard");
+  c.hasClass("flipped") === true ? c.removeClass("flipped") : c.addClass("flipped");
+};
+
+var flipToFront = function () {
+  var c = $(".currentCard .innerCard");
+  c.hasClass("flipped") === true ? c.removeClass("flipped") : console.log("Already Flipped"); // could delay for flip animation
+};
+
 $(document).ready(function() {
   //function that generates html elements from deck object
   numberTheDeck();
   generateStart();
 
   //flip between front/back
-  $(".currentCard .innerCard").on("click", function() {
-    var c = this.classList;
-    c.contains("flipped") === true ? c.remove("flipped") : c.add("flipped");
+  $(".currentCard").on("click", ".innerCard", function() {
+    toggleFlip();
   });
 
-  $(".next1").on("click", function() {cycleNext();});
-  $(".back1").on("click", function() {cycleBack();});
+  $(".next1").on("click", function() {
+    flipToFront();
+    cycleNext();
+  });
+  $(".back1").on("click", function() {
+    flipToFront();
+    cycleBack();
+  });
 
   $("html").keydown(function(e) {
-    if (e.keyCode == "37") {cycleNext();}
-    if (e.keyCode == "39") {cycleBack();}
+    if (e.keyCode == "37") {
+      flipToFront();
+      cycleNext();
+    }
+    if (e.keyCode == "39") {
+      flipToFront();
+      cycleBack();
+    }
   });
 
   //mark either right or wrong
@@ -152,14 +173,13 @@ $(document).ready(function() {
   // store in variable
   //track which are incorrect, redisplay until right =!!NEED TO FIX!!=
 
-  $(".wrongButton").on("click", function() {
-    var parentIndex = $(this).parent().prevAll().length;
-    deck[parentIndex].correct = false;
+  $(".cards").on("click", ".wrongButton", function() {
+    var cardInCurrent = Number($(".currentCard .innerCard").attr("name"));
+    deck[cardInCurrent-1].correct = false;
   });
 
-  $(".correctButton").on("click", function() {
-    var parentIndex = $(this).parent().prevAll().length;
-    deck[parentIndex].correct = true;
-    $(".flashCard").eq(parentIndex).toggle();
+  $(".cards").on("click", ".correctButton", function() {
+    var cardInCurrent = Number($(".currentCard .innerCard").attr("name"));
+    deck[cardInCurrent-1].correct = true;
   });
 });
