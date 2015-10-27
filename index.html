@@ -8,20 +8,38 @@
 </head>
 <body>
   <div class="container">
-    <div class="instructions">Left Arrow: Advance 1 card Right Arrow: Back 1 Card</div>
-    <section class="cards">
-      <div class="back3 flashCard"></div>
-      <div class="back2 flashCard"></div>
-      <div class="back1 flashCard"></div>
-      <div class="currentCard flashCard">
-        <div class='wrongButton fab'>X</div>
-        <div class='correctButton fab'>O</div>
-      </div>
-      <div class="next1 flashCard"></div>
-      <div class="next2 flashCard"></div>
-      <div class="next3 flashCard"></div>
-    </section>
-  </div>
+    <div class="instructions">
+      <p>Left Arrow: Advance 1 card</p>
+      <p>Right Arrow: Back 1 Card</p>
+      <p>Up/Down Arrows: Flip Card</p>
+    </div>
+
+    <div class="cardContainer">
+      <section class="decks">
+        <div class="deckHolder raised remainingCards">
+            <h3>To View</h3>
+            <h3 id="toView">10</h3>
+        </div>
+        <div class="deckHolder raised seenCards">
+            <h3>Viewed</h3>
+            <h3 id="viewed">0</h3>
+        </div>
+      </section>
+
+      <section class="cards">
+        <div class="back3 flashCard"></div>
+        <div class="back2 flashCard"></div>
+        <div class="back1 flashCard"></div>
+        <div class="currentCard flashCard">
+          <div class='wrongButton fab'>X</div>
+          <div class='correctButton fab'>O</div>
+        </div>
+        <div class="next1 flashCard"></div>
+        <div class="next2 flashCard"></div>
+        <div class="next3 flashCard"></div>
+      </section>
+    </div> <!--/cardContainer-->
+  </div> <!--container-->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script>

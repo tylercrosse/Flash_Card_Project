@@ -127,22 +127,15 @@ var cycleNext = function() {
     }
     fillEmptyNext3();
   }
-  // else {
-  //   console.log("Can't Advance Further!");
-  // }
 };
 
 var fillEmptyNext3 = function() {
-  // figure out card in ".next3", play next card
-  // create array of cards in play
+  // figure out card in ".next3", genate appropriate replacement card
   var cardInNext2 = Number($(".next2").children().attr("name"));
 
   if (cardInNext2 < deck.length) { //checks if there is another card to generate
     generateCard(cardInNext2, ".next3");
   }
-  // else {
-  //   console.log("No more to Generate!");
-  // }
 };
 
 // remove next3, next2->next3, next1->2, currentCard->next1, back1->currentCard
@@ -154,22 +147,15 @@ var cycleBack = function() {
     }
     fillEmptyBack3();
   }
-  // else {
-  //   console.log("Can't Advance Further!");
-  // }
 };
 
 var fillEmptyBack3 = function() {
-  // figure out card in ".next3", play next card
-  // create array of cards in play
+  // figure out card in ".back3", genate appropriate replacement card
   var cardInBack2 = Number($(".back2").children().attr("name"));
 
   if (cardInBack2 > 1) { //checks if there is another card to generate
     generateCard(cardInBack2 - 2, ".back3");
   }
-  // else {
-  //   console.log("No more to Generate!");
-  // }
 };
 
 var toggleFlip = function() {
@@ -182,7 +168,6 @@ var flipToFront = function() {
   if (c.hasClass("flipped")) {
     c.removeClass("flipped");
   }
-  // c.hasClass("flipped") === true ? c.removeClass("flipped") : console.log("Already Flipped"); // could delay for flip animation
 };
 
 $(document).ready(function() {
