@@ -97,6 +97,9 @@ var deck = [{ //1
   }
 ];
 
+var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
+var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
+
 var numberTheDeck = function() {
   for (var i = 0; i < deck.length; i++) { // IMPROVE create higher order function that loops that can be called for this
     deck[i].cardnumber = (i + 1);
@@ -112,9 +115,7 @@ var generateStart = function() {
   }
 };
 
-var generateResponse = function(deckIndexVal,destination) {
-};
-
+// used by generateStart, fillEmptyNext3 & fillEmptyBack3
 var generateCard = function(deckIndexVal, destination) {
   var cardnumber = deck[deckIndexVal].cardnumber;
   var termToPlace = deck[deckIndexVal].term; // stores term from deck object
@@ -124,6 +125,11 @@ var generateCard = function(deckIndexVal, destination) {
   $(destination + " .definition").text(defToPlace); // places stored def into 'p .definition'
   $(destination + " .innerCard").attr("name", cardnumber);
 
+  generateResponse(deckIndexVal,destination);
+};
+
+// used by generateCard - checks if card has been answered before, generates appropirate correct/wrong div
+var generateResponse = function(deckIndexVal,destination) {
   var answered = deck[deckIndexVal].answered; // Boolean of if it was answered
   var correct = deck[deckIndexVal].correct; // Boolean of response true=correct, false=wrong
 
@@ -136,10 +142,7 @@ var generateCard = function(deckIndexVal, destination) {
   }
 };
 
-var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
-var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
-// var reversePositions = cardPositions.reverse();
-
+// moves a single card one step, resets worng/correct buttons, direction depends on positionArray given
 var cardMove = function(cardToMove, positionArray) {
   var storeContents = $(positionArray[cardToMove] + " .innerCard"); // get contents of '.innerCard' of card to move
   $(positionArray[cardToMove - 1]).html(storeContents); // place that contents in next element to left(cardPositions) or right(reversePositions)
@@ -159,8 +162,8 @@ var cycleNext = function() {
   }
 };
 
+// figure out card in ".next2", genate appropriate replacement card to fill empty gap
 var fillEmptyNext3 = function() {
-  // figure out card in ".next3", genate appropriate replacement card
   var cardInNext2 = Number($(".next2").children().attr("name"));
 
   if (cardInNext2 < deck.length) { //checks if there is another card to generate
@@ -179,8 +182,8 @@ var cycleBack = function() {
   }
 };
 
+// figure out card in ".back3", genate appropriate replacement card to fill empty gap
 var fillEmptyBack3 = function() {
-  // figure out card in ".back3", genate appropriate replacement card
   var cardInBack2 = Number($(".back2").children().attr("name"));
 
   if (cardInBack2 > 1) { //checks if there is another card to generate
@@ -188,11 +191,13 @@ var fillEmptyBack3 = function() {
   }
 };
 
+// adds/removes .fllipped on currentCard based on user input (click, up/down arrows)
 var toggleFlip = function() {
   var c = $(".currentCard .innerCard");
   c.hasClass("flipped") === true ? c.removeClass("flipped") : c.addClass("flipped");
 };
 
+// flips cards - used before moving them
 var flipToFront = function() {
   var c = $(".currentCard .innerCard");
   if (c.hasClass("flipped")) {
