@@ -120,13 +120,13 @@ var generateStart = function(whichDeck) {
 
 // used by generateStart, fillEmptyNext3 & fillEmptyBack3 - uses generateResponse
 var generateCard = function(deckIndexVal, destination, whichDeck) {
-  var cardnumber = whichDeck[deckIndexVal].cardnumber;
+  var numberOfCard = whichDeck[deckIndexVal].cardnumber;
   var termToPlace = whichDeck[deckIndexVal].term; // stores term from deck object
   var defToPlace = whichDeck[deckIndexVal].definition; // stores definition from deck object
   $(destination).append("<div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div>");
   $(destination + " .term").text(termToPlace); // places stored term into 'h2 .term'
   $(destination + " .definition").text(defToPlace); // places stored def into 'p .definition'
-  $(destination + " .innerCard").attr("name", cardnumber);
+  $(destination + " .innerCard").attr("name", numberOfCard);
 
   generateResponse(deckIndexVal, destination, whichDeck);
 };
@@ -214,15 +214,15 @@ var markCorrect = function () {
 };
 
 // moves cards that are marked wrong into into the object wrongDeck
-var moveToWrongDeck = function () {
-  for ( var i = 0; i < deck.length; i++) {
-    if (deck[i].answered && !deck[i].correct) { // if answered=true AND not correct (correct=false)
-      slicedCardArray = deck.slice(i, i+1);
+var pushToWrongDeck = function () {
+  for ( var i = 0; i < whichDeck.length; i++) {
+    if (whichDeck[i].answered && !whichDeck[i].correct) { // if answered=true AND not correct (correct=false)
+      slicedCardArray = whichDeck.slice(i, i+1);
       slicedCardObject = slicedCardArray.pop();
       wrongDeck.push(slicedCardObject);
+      console.log(wrongDeck);
     }
   }
-  console.log(wrongDeck);
 };
 
 // clears all visible cards
@@ -232,11 +232,29 @@ var clearAllCards = function () {
   }
 };
 
-// resets all the responses in deck (deck.answered & deck.correct)
+// resets all the responses in deck (whichDeck.answered & whichDeck.correct)
 var resetResponses = function () {
-  for ( var i = 0; i < deck.length; i++) {
-    deck[i].answered = false;
-    deck[i].correct = true;
+  for ( var i = 0; i < whichDeck.length; i++) {
+    whichDeck[i].answered = false;
+    whichDeck[i].correct = true;
+  }
+};
+
+var updateDeckSymbols = function () {
+  var cardInNext3 = Number($(".next3").children().attr("name"));
+  var cardInBack3 = Number($(".back3").children().attr("name"));
+  var toView = whichDeck.length - cardInNext3;
+  var viewed = cardInBack3 - 1;
+
+  if (isNaN(cardInNext3)) {
+    $("#toView").text("0");
+  } else {
+    $("#toView").text(toView);
+  }
+  if (isNaN(cardInBack3)) {
+    $("#viewed").text("0");
+  } else {
+    $("#viewed").text(viewed);
   }
 };
 
@@ -244,6 +262,7 @@ $(document).ready(function() {
   //function that generates html elements from deck object
   numberTheDeck(whichDeck);
   generateStart(whichDeck);
+  updateDeckSymbols();
 
   //flip between front/back
   $(".currentCard").on("click", ".innerCard", function() {
@@ -254,20 +273,24 @@ $(document).ready(function() {
   $(".next1").on("click", function() {
     flipToFront();
     cycleNext(whichDeck);
+    updateDeckSymbols();
   });
   $(".back1").on("click", function() {
     flipToFront();
     cycleBack(whichDeck);
+    updateDeckSymbols();
   });
 
   $("html").keydown(function(e) {
     if (e.keyCode == "37") { // Right Arrow
       flipToFront();
       cycleNext(whichDeck);
+      updateDeckSymbols();
     }
     if (e.keyCode == "39") { // Left Arrow
       flipToFront();
       cycleBack(whichDeck);
+      updateDeckSymbols();
     }
     if (e.keyCode == "38" || e.keyCode == "40") { // Up Arrow OR Down Arrow
       toggleFlip();
@@ -275,26 +298,27 @@ $(document).ready(function() {
   });
 
   $(".generateWrongDeck").on("click", function(){
-    moveToWrongDeck();
-    numberTheDeck(whichDeck);
+    pushToWrongDeck();
     whichDeck = wrongDeck;
+    numberTheDeck(whichDeck);
     clearAllCards();
     resetResponses();
     generateStart(whichDeck);
+    wrongDeck = [];
   });
 
   //mark either right or wrong
   $(".cardContainer").on("click", ".wrongButton", function() {
     var cardInCurrent = Number($(".currentCard .innerCard").attr("name"));
-    deck[cardInCurrent - 1].answered = true;
-    deck[cardInCurrent - 1].correct = false;
+    whichDeck[cardInCurrent - 1].answered = true;
+    whichDeck[cardInCurrent - 1].correct = false;
     markWrong();
   });
 
   $(".cardContainer").on("click", ".correctButton", function() {
     var cardInCurrent = Number($(".currentCard .innerCard").attr("name"));
-    deck[cardInCurrent - 1].answered = true;
-    deck[cardInCurrent - 1].correct = true;
+    whichDeck[cardInCurrent - 1].answered = true;
+    whichDeck[cardInCurrent - 1].correct = true;
     markCorrect();
   });
 
