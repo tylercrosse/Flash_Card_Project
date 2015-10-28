@@ -263,6 +263,26 @@ var toggleDeckButton = function () {
   $(".generateOriginalDeck").toggle();
 };
 
+  var animationClasses = [".back3Animate", ".back2Animate", ".back1Animate", ".currentAnimate", ".next1Animate", ".next2Animate", ".next3Animate"];
+  var animationsWithTwoNames = animationClasses.slice(1, 7);
+  var animationNames = [
+    ["back2Right", "back2Left"],
+    ["back1Right", "back1Left"],
+    ["currentRight", "currentLeft"],
+    ["next1Right", "next1Left"],
+    ["next2Right", "next2Left"]
+  ];
+var animateLeft = function () {
+
+  for ( var i = 0; i < animationsWithTwoNames.length; i++) {
+    $(animationsWithTwoNames[i]).css("animation-name", animationNames[i][1]);
+  }
+
+  for ( var j = 0; j < cardPositions.length; j++) {
+    $(cardPositions[j]).addClass(animationClasses[j]);
+  }
+};
+
 $(document).ready(function() {
   //function that generates html elements from deck object
   numberTheDeck(whichDeck);
