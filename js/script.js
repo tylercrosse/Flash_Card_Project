@@ -258,11 +258,17 @@ var updateDeckSymbols = function () {
   }
 };
 
+var toggleDeckButton = function () {
+  $(".generateWrongDeck").toggle();
+  $(".generateOriginalDeck").toggle();
+};
+
 $(document).ready(function() {
   //function that generates html elements from deck object
   numberTheDeck(whichDeck);
   generateStart(whichDeck);
   updateDeckSymbols();
+  $(".generateOriginalDeck").hide();
 
   //flip between front/back
   $(".currentCard").on("click", ".innerCard", function() {
@@ -298,6 +304,7 @@ $(document).ready(function() {
   });
 
   $(".generateWrongDeck").on("click", function(){
+    toggleDeckButton();
     pushToWrongDeck();
     whichDeck = wrongDeck;
     numberTheDeck(whichDeck);
@@ -305,6 +312,15 @@ $(document).ready(function() {
     resetResponses();
     generateStart(whichDeck);
     wrongDeck = [];
+  });
+
+  $(".generateOriginalDeck").on("click", function() {
+    toggleDeckButton();
+    whichDeck = deck;
+    numberTheDeck(whichDeck);
+    clearAllCards();
+    resetResponses();
+    generateStart(whichDeck);
   });
 
   //mark either right or wrong
