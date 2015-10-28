@@ -102,38 +102,39 @@ var wrongDeck = [];
 var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
 var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
 
-var numberTheDeck = function() {
-  for (var i = 0; i < deck.length; i++) { // IMPROVE create higher order function that loops that can be called for this
-    deck[i].cardnumber = (i + 1);
+var whichDeck = deck;
+
+var numberTheDeck = function(whichDeck) {
+  for (var i = 0; i < whichDeck.length; i++) { // IMPROVE create higher order function that loops that can be called for this
+    whichDeck[i].cardnumber = (i + 1);
   }
 };
 
-//on page load generate first 4 cards of deck
-//place them in currentCard, next1-next3
-var generateStart = function() {
+//on page load generate first 4 cards of deck place them in currentCard, next1-next3
+var generateStart = function(whichDeck) {
   var startPositions = cardPositions.slice(3, 7);
   for (var i = 0; i < startPositions.length; i++) {
-    generateCard(i, startPositions[i]);
+    generateCard(i, startPositions[i], whichDeck);
   }
 };
 
-// used by generateStart, fillEmptyNext3 & fillEmptyBack3
-var generateCard = function(deckIndexVal, destination) {
-  var cardnumber = deck[deckIndexVal].cardnumber;
-  var termToPlace = deck[deckIndexVal].term; // stores term from deck object
-  var defToPlace = deck[deckIndexVal].definition; // stores definition from deck object
+// used by generateStart, fillEmptyNext3 & fillEmptyBack3 - uses generateResponse
+var generateCard = function(deckIndexVal, destination, whichDeck) {
+  var cardnumber = whichDeck[deckIndexVal].cardnumber;
+  var termToPlace = whichDeck[deckIndexVal].term; // stores term from deck object
+  var defToPlace = whichDeck[deckIndexVal].definition; // stores definition from deck object
   $(destination).append("<div class='innerCard raised'><div class='cardFace cardFront'><h2 class='term'></h2></div><div class='cardFace cardBack'><p class='definition'></p></div></div>");
   $(destination + " .term").text(termToPlace); // places stored term into 'h2 .term'
   $(destination + " .definition").text(defToPlace); // places stored def into 'p .definition'
   $(destination + " .innerCard").attr("name", cardnumber);
 
-  generateResponse(deckIndexVal,destination);
+  generateResponse(deckIndexVal, destination, whichDeck);
 };
 
 // used by generateCard - checks if card has been answered before, generates appropirate correct/wrong div
-var generateResponse = function(deckIndexVal,destination) {
-  var answered = deck[deckIndexVal].answered; // Boolean of if it was answered
-  var correct = deck[deckIndexVal].correct; // Boolean of response true=correct, false=wrong
+var generateResponse = function(deckIndexVal, destination, whichDeck) {
+  var answered = whichDeck[deckIndexVal].answered; // Boolean of if it was answered
+  var correct = whichDeck[deckIndexVal].correct; // Boolean of response true=correct, false=wrong
 
   if (answered) {
     if (correct) {
@@ -144,52 +145,49 @@ var generateResponse = function(deckIndexVal,destination) {
   }
 };
 
-// moves a single card one step, resets worng/correct buttons, direction depends on positionArray given
+// used by cycleNext & cycleBack - moves a single card one step, resets worng/correct buttons, direction depends on positionArray given
 var cardMove = function(cardToMove, positionArray) {
   var storeContents = $(positionArray[cardToMove] + " .innerCard"); // get contents of '.innerCard' of card to move
   $(positionArray[cardToMove - 1]).html(storeContents); // place that contents in next element to left(cardPositions) or right(reversePositions)
-  if ($(".currentCard").children().length < 3) {
-    $(".currentCard").append("<div class='wrongButton fab'>X</div><div class='correctButton fab'>O</div>");
-  }
 };
 
-//on NEXT, move currentCard->back1, next1->currentCard, next2->1, next3->2
-var cycleNext = function() {
+// uses cardMove & fillEmptyNext3 - on NEXT, move currentCard->back1, next1->currentCard, next2->1, next3->2
+var cycleNext = function(whichDeck) {
   var next1Contents = $(".next1").html();
   if (next1Contents) { // if next1 is not empty, advance everything 1 to left
-    for (var i = 0; i < deck.length; i++) {
+    for (var i = 0; i < 7; i++) {
       cardMove(i, cardPositions); //might be able to modify this to make a generalized cycle function
     }
-    fillEmptyNext3();
+    fillEmptyNext3(whichDeck);
   }
 };
 
-// figure out card in ".next2", genate appropriate replacement card to fill empty gap
-var fillEmptyNext3 = function() {
+// uses generateCard - used by cycleNext - figure out card in ".next2", genate appropriate replacement card to fill empty gap
+var fillEmptyNext3 = function(whichDeck) {
   var cardInNext2 = Number($(".next2").children().attr("name"));
 
-  if (cardInNext2 < deck.length) { //checks if there is another card to generate
-    generateCard(cardInNext2, ".next3");
+  if (cardInNext2 < whichDeck.length) { //checks if there is another card to generate
+    generateCard(cardInNext2, ".next3", whichDeck);
   }
 };
 
-// remove next3, next2->next3, next1->2, currentCard->next1, back1->currentCard
-var cycleBack = function() {
+// uses cardMove & fillEmptyBack3 - remove next3, next2->next3, next1->2, currentCard->next1, back1->currentCard
+var cycleBack = function(whichDeck) {
   var back1Contents = $(".back1").html();
   if (back1Contents) { // if back1 is not empty, advance everything 1 to left
-    for (var i = 0; i < deck.length; i++) {
+    for (var i = 0; i < 7; i++) {
       cardMove(i, reversePositions); //might be able to modify this to make a generalized cycle function
     }
-    fillEmptyBack3();
+    fillEmptyBack3(whichDeck);
   }
 };
 
-// figure out card in ".back3", genate appropriate replacement card to fill empty gap
-var fillEmptyBack3 = function() {
+// uses generateCard - used by cycleBack - figure out card in ".back3", genate appropriate replacement card to fill empty gap
+var fillEmptyBack3 = function(whichDeck) {
   var cardInBack2 = Number($(".back2").children().attr("name"));
 
   if (cardInBack2 > 1) { //checks if there is another card to generate
-    generateCard(cardInBack2 - 2, ".back3");
+    generateCard(cardInBack2 - 2, ".back3", whichDeck);
   }
 };
 
@@ -217,8 +215,7 @@ var markCorrect = function () {
 
 // moves cards that are marked wrong into into the object wrongDeck
 var moveToWrongDeck = function () {
-  // check for wrong responses in main deck
-  for ( var i = 0; i < deck.length; i++) { // ========FOR EACH?????========
+  for ( var i = 0; i < deck.length; i++) {
     if (deck[i].answered && !deck[i].correct) { // if answered=true AND not correct (correct=false)
       slicedCardArray = deck.slice(i, i+1);
       slicedCardObject = slicedCardArray.pop();
@@ -228,10 +225,25 @@ var moveToWrongDeck = function () {
   console.log(wrongDeck);
 };
 
+// clears all visible cards
+var clearAllCards = function () {
+  for (var i = 0; i < 7; i++) {
+    $(".flashCard").eq(i).html("");
+  }
+};
+
+// resets all the responses in deck (deck.answered & deck.correct)
+var resetResponses = function () {
+  for ( var i = 0; i < deck.length; i++) {
+    deck[i].answered = false;
+    deck[i].correct = true;
+  }
+};
+
 $(document).ready(function() {
   //function that generates html elements from deck object
-  numberTheDeck();
-  generateStart();
+  numberTheDeck(whichDeck);
+  generateStart(whichDeck);
 
   //flip between front/back
   $(".currentCard").on("click", ".innerCard", function() {
@@ -241,39 +253,49 @@ $(document).ready(function() {
   // cycle forward or back
   $(".next1").on("click", function() {
     flipToFront();
-    cycleNext();
+    cycleNext(whichDeck);
   });
   $(".back1").on("click", function() {
     flipToFront();
-    cycleBack();
+    cycleBack(whichDeck);
   });
 
   $("html").keydown(function(e) {
     if (e.keyCode == "37") { // Right Arrow
       flipToFront();
-      cycleNext();
+      cycleNext(whichDeck);
     }
     if (e.keyCode == "39") { // Left Arrow
       flipToFront();
-      cycleBack();
+      cycleBack(whichDeck);
     }
     if (e.keyCode == "38" || e.keyCode == "40") { // Up Arrow OR Down Arrow
       toggleFlip();
     }
   });
 
+  $(".generateWrongDeck").on("click", function(){
+    moveToWrongDeck();
+    numberTheDeck(whichDeck);
+    whichDeck = wrongDeck;
+    clearAllCards();
+    resetResponses();
+    generateStart(whichDeck);
+  });
+
   //mark either right or wrong
-  $(".cards").on("click", ".wrongButton", function() {
+  $(".cardContainer").on("click", ".wrongButton", function() {
     var cardInCurrent = Number($(".currentCard .innerCard").attr("name"));
     deck[cardInCurrent - 1].answered = true;
     deck[cardInCurrent - 1].correct = false;
     markWrong();
   });
 
-  $(".cards").on("click", ".correctButton", function() {
+  $(".cardContainer").on("click", ".correctButton", function() {
     var cardInCurrent = Number($(".currentCard .innerCard").attr("name"));
     deck[cardInCurrent - 1].answered = true;
     deck[cardInCurrent - 1].correct = true;
     markCorrect();
   });
+
 });
