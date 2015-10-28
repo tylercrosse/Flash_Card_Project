@@ -330,8 +330,8 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 =======================================================*/
 
 .currentAnimate {
-  animation: currentRight 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;
-  animation-delay: 0;
+  animation: 1.6s cubic-bezier(0.86, 0, 0.07, 1);
+  animation-name: currentRight;
   animation-fill-mode: none;
   animation-play-state: running;
 }
@@ -361,8 +361,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 
 .next1Animate {
-  animation: next1Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
-  animation-delay: 0;
+  animation: next1Right 1.6s cubic-bezier(0.86, 0, 0.07, 1);
   animation-fill-mode: none;
   animation-play-state: running;
 }
@@ -395,8 +394,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 
 .back1Animate {
-  animation: back1Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
-  animation-delay: 0;
+  animation: back1Right 1.6s cubic-bezier(0.86, 0, 0.07, 1);
   animation-fill-mode: none;
   animation-play-state: running;
 }
@@ -428,8 +426,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 
 .next2Animate {
-  animation: next2Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
-  animation-delay: 0;
+  animation: next2Right 1.6s cubic-bezier(0.86, 0, 0.07, 1);
   animation-fill-mode: none;
   animation-play-state: running;
 }
@@ -457,8 +454,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 
 .back2Animate {
-  animation: back2Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
-  animation-delay: 0;
+  animation: back2Right 1.6s cubic-bezier(0.86, 0, 0.07, 1);
   animation-fill-mode: none;
   animation-play-state: running;
 }
@@ -484,8 +480,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 
 .next3Animate {
-  animation: next3Left 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
-  animation-delay: 0;
+  animation: next3Left 1.6s cubic-bezier(0.86, 0, 0.07, 1);
   animation-fill-mode: none;
   animation-play-state: running;
 }
@@ -501,8 +496,7 @@ box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.19), 0px 6px 3px 0px rgba(0,0,0,0.23)
 }
 
 .back3Animate {
-  animation: back3Right 1.6s cubic-bezier(0.86, 0, 0.07, 1) infinite alternate;;
-  animation-delay: 0;
+  animation: back3Right 1.6s cubic-bezier(0.86, 0, 0.07, 1);
   animation-fill-mode: none;
   animation-play-state: running;
 }
