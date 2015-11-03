@@ -1,3 +1,5 @@
+// Though, you probably won't have to do this very often again, I would recommend putting this in a separate file as to not conflate your code base with seed data
+// I loved that you used an object to represent individual flash cards though
 var deck = [{ //1
     cardnumber: "",
     term: "Occhiolism",
@@ -102,8 +104,11 @@ var wrongDeck = [];
 var cardPositions = [".back3", ".back2", ".back1", ".currentCard", ".next1", ".next2", ".next3"];
 var reversePositions = [".next3", ".next2", ".next1", ".currentCard", ".back1", ".back2", ".back3"];
 
+
 var whichDeck = deck;
 
+// what are you passing in as an argument to this function call? is it a whichDeck? or is it any deck? Seem like you pass in whichDeck as an argument in function definitions a couple of different times
+// During invocation of the function we might be using whichDeck as an argument. But when we define a function we want to pass in a deck itself, whethers its the wrong deck or the original deck of questions
 var numberTheDeck = function(whichDeck) {
   for (var i = 0; i < whichDeck.length; i++) { // IMPROVE create higher order function that loops that can be called for this
     whichDeck[i].cardnumber = (i + 1);
@@ -119,6 +124,7 @@ var generateStart = function(whichDeck) {
 };
 
 // used by generateStart, fillEmptyNext3 & fillEmptyBack3 - uses generateResponse
+// its cool, because you encapsulated attributes and properties into objects it becomes much easier to access values from it.
 var generateCard = function(deckIndexVal, destination, whichDeck) {
   var numberOfCard = whichDeck[deckIndexVal].cardnumber;
   var termToPlace = whichDeck[deckIndexVal].term; // stores term from deck object
@@ -152,6 +158,7 @@ var cardMove = function(cardToMove, positionArray) {
 };
 
 // uses cardMove & fillEmptyNext3 - on NEXT, move currentCard->back1, next1->currentCard, next2->1, next3->2
+// I like this alot, i feel like it might be a little expensive DOM manipulation wise, but can't really think of a better alternative.
 var cycleNext = function(whichDeck) {
   var next1Contents = $(".next1").html();
   if (next1Contents) { // if next1 is not empty, advance everything 1 to left
@@ -205,6 +212,7 @@ var flipToFront = function() {
   }
 };
 
+// why not add a class that updates the css of an existing div? Although this isn't wrong what you did
 var markWrong = function () {
   $(".currentCard .cardFace").append("<div class='mark wrong'></div>");
 };
@@ -214,6 +222,7 @@ var markCorrect = function () {
 };
 
 // moves cards that are marked wrong into into the object wrongDeck
+// I really like this functionality of your app
 var pushToWrongDeck = function () {
   for ( var i = 0; i < whichDeck.length; i++) {
     if (whichDeck[i].answered && !whichDeck[i].correct) { // if answered=true AND not correct (correct=false)
@@ -264,6 +273,7 @@ var toggleDeckButton = function () {
 };
 
 $(document).ready(function() {
+  // all the intial function invocations look good, as do the event listeners :+1:
   //function that generates html elements from deck object
   numberTheDeck(whichDeck);
   generateStart(whichDeck);
@@ -303,6 +313,7 @@ $(document).ready(function() {
     }
   });
 
+// really liked this functionality in your app
   $(".generateWrongDeck").on("click", function(){
     toggleDeckButton();
     pushToWrongDeck();
